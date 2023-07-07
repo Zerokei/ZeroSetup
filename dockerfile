@@ -19,11 +19,17 @@ ENV HOME /home/$USER_NAME
 # Copy config
 ENV CONFIG_DIR $HOME/.config
 RUN mkdir $CONFIG_DIR
-COPY * $CONFIG_DIR/
-RUN sudo chown $USER_NAME:sudo $CONFIG_DIR/*
+COPY .vimrc $HOME
+COPY .p10k.zsh $HOME
+COPY setup.sh $CONFIG_DIR
+RUN sudo chown $USER_NAME:sudo $HOME/.vimrc $HOME/.p10k.zsh $CONFIG_DIR/setup.sh
 
-# Set fish and vim
+# Set zish and vim
 RUN chmod +x $CONFIG_DIR/setup.sh && \
     bash $CONFIG_DIR/setup.sh $CONFIG_DIR
+
+# overwrite .zshrc
+COPY .zshrc $HOME
+RUN sudo chown $USER_NAME:sudo $HOME/.zshrc
 
 WORKDIR $HOME

@@ -23,7 +23,9 @@ if [ $ACTION = "build" ]; then
     docker build -t $CONTAINER_NAME . --build-arg USER_NAME=$(id -un) --build-arg USER_GROUP=$(id -gn)
 elif [ $ACTION = "run" ]; then
     # 运行容器
-    docker run -it --rm $CONTAINER_NAME fish
+    docker run -it --rm $CONTAINER_NAME zsh
+elif [ $ACTION = "rm" ]; then
+    docker rmi $CONTAINER_NAME
 else
     # 打印帮助信息
     echo "Usage: ./dockerup.sh [build|run] [container_name]"
